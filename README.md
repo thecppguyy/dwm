@@ -78,3 +78,5 @@ Alternatively, if you prefer a different color-setting method, follow the instru
 
 
 I use [slock](https://tools.suckless.org/slock/) for a lockscreen (build will be uploaded eventually), activated via keybind.
+
+My config has a few glyphs used cosmetically; for those to render properly, install a [font with extra glyphs](https://www.nerdfonts.com/#home).
