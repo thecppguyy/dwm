@@ -53,11 +53,11 @@ static char *colors[][3] = {
        /*               fg           bg           border   */
 		[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
 		[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
-		[SchemeStatus]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* Statusbar right {text,background,not used but cannot be empty} */
-		[SchemeTagsSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* Tagbar left selected {text,background,not used but cannot be empty} */
-		[SchemeTagsNorm]  = { selbordercolor, normbgcolor,  normbgcolor  }, /* Tagbar left unselected {text,background,not used but cannot be empty} */
-		[SchemeInfoSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar middle  selected {text,background,not used but cannot be empty} */
-		[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar middle  unselected {text,background,not used but cannot be empty} */
+		[SchemeStatus]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* statusbar R {text,background,null} */
+		[SchemeTagsSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* tagbar L selected {text,background,null} */
+		[SchemeTagsNorm]  = { selbordercolor, normbgcolor,  normbgcolor  }, /* tagbar L unselected {text,background,null} */
+		[SchemeInfoSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar M  selected {text,background,null} */
+		[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar M  unselected {text,background,null} */
 };
 
 
@@ -167,14 +167,14 @@ static const Key keys[] = {
 
 
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,			XK_f,	   togglefullscreen, {0} }, /* focus fullscreen patch */
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} }, /* monacle */
-	{ MODKEY, 			XK_s,      setlayout,      {.v = &layouts[3]} }, /* spiral */
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[4]} }, /* dwindle */
-	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,			XK_space,  zoom,           {0} },
-    	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
+	{ MODKEY,						XK_f,	   togglefullscreen, {0} }, /* focus fullscreen patch */
+	{ MODKEY|ShiftMask,				XK_m,      setlayout,      {.v = &layouts[2]} }, /* monacle */
+	{ MODKEY,						XK_s,      setlayout,      {.v = &layouts[3]} }, /* spiral */
+	{ MODKEY|ShiftMask,				XK_t,      setlayout,      {.v = &layouts[4]} }, /* dwindle */
+	{ MODKEY|ControlMask,			XK_space,  setlayout,      {0} },
+	{ MODKEY|ShiftMask,				XK_space,  togglefloating, {0} },
+	{ MODKEY,						XK_space,  zoom,           {0} },
+	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY|ShiftMask,             XK_s,      togglesticky,   {0} },
 
 
@@ -185,8 +185,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_bracketleft,    tagmon,         {.i = +1 } },
 
 /* gaps control */
-	{ MODKEY,              		XK_minus,  incrgaps,       {.i = -3 } }, /* all */
-	{ MODKEY,    			XK_equal,  incrgaps,       {.i = +3 } },
+	{ MODKEY,					XK_minus,  incrgaps,       {.i = -3 } }, /* all */
+	{ MODKEY,					XK_equal,  incrgaps,       {.i = +3 } },
 	{ MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +1 } }, /* inner */
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
 	{ MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +1 } }, /* outer */
@@ -216,21 +216,21 @@ static const Key keys[] = {
 
 
 /* toggle statusbar pieces individually */
-	{ MODKEY|ControlMask,			    	XK_t,      togglebartitle, {0} },
-	{ MODKEY|ControlMask,               		XK_s,      togglebarstatus,{0} },
-	{ MODKEY|ControlMask,               		XK_t,      togglebartags,  {0} },
-    { MODKEY|ControlMask,               XK_e,      togglebarcolor, {0} }, /* swaps foreground and background colors for tags */
-	{ MODKEY|ControlMask,				XK_s,      togglebarlt,    {0} },
-	{ MODKEY|ControlMask,				XK_f,      togglebarfloat, {0} },
+	{ MODKEY|ControlMask,			XK_t,      togglebartitle, {0} },
+	{ MODKEY|ControlMask,			XK_s,      togglebarstatus,{0} },
+	{ MODKEY|ControlMask,			XK_t,      togglebartags,  {0} },
+    { MODKEY|ControlMask,			XK_e,      togglebarcolor, {0} }, /* swaps fg and bg tag colors */
+	{ MODKEY|ControlMask,			XK_s,      togglebarlt,    {0} },
+	{ MODKEY|ControlMask,			XK_f,      togglebarfloat, {0} },
 
 
 /* application bindings */
-	{ MODKEY,			            XK_m,          spawn,      {.v = (const char*[]){ "st", "-e", "termusic", NULL } } },
-    	{ MODKEY,				    XK_w,          spawn,      {.v = (const char*[]){ BROWSER, NULL } } },
-	{ MODKEY,			            XK_f,          spawn,      {.v = (const char*[]){ "st", "-e", "fff", NULL } } },
-	{ MODKEY,			            XK_n,          spawn,      {.v = (const char*[]){ "st", "-e", "nvim", NULL } } },
-	{ MODKEY|ShiftMask,		            XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
-	{ MODKEY,			            XK_p,          spawn,      {.v = (const char*[]){ "darktable", NULL } } },
+	{ MODKEY,			XK_m,          spawn,      {.v = (const char*[]){ "st", "-e", "termusic", NULL } } },
+	{ MODKEY,			XK_w,          spawn,      {.v = (const char*[]){ BROWSER, NULL } } },
+	{ MODKEY,			XK_f,          spawn,      {.v = (const char*[]){ "st", "-e", "fff", NULL } } },
+	{ MODKEEY,			XK_n,          spawn,      {.v = (const char*[]){ "st", "-e", "nvim", NULL } } },
+	{ MODKEY|ShiftMask,			XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
+	{ MODKEY,			XK_p,          spawn,      {.v = (const char*[]){ "darktable", NULL } } },
 
 
 /* script launch bindings */
@@ -246,8 +246,8 @@ static const Key keys[] = {
 	{ MODKEY,			           XK_F1,         spawn,       SHCMD("screenshot") },
 	{ MODKEY|ShiftMask,			   XK_F1,         spawn,       SHCMD("screenshot color") },
 	{ MODKEY,			           XK_F2,         spawn,       {.v = (const char*[]){ "vb", NULL } } },
-    	{ MODKEY|ShiftMask,			   XK_F2,         spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
-    	{ MODKEY,			           XK_F3,         spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
+	{ MODKEY|ShiftMask,			   XK_F2,         spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
+	{ MODKEY,			           XK_F3,         spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
 
 
 /* other bindings */
