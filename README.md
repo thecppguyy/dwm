@@ -33,10 +33,7 @@ cd dwm
 sudo make clean install
 ```
 
-* basic ```~/.xinitrc``` requirement
-```
-exec dwm
-```
+* Basic ```~/.xinitrc``` requirement: ```exec dwm```
 
 * Configure settings (fonts, bindings, etc) in **config.def.h** before compiling.
   - Defaults: Mod is bound to the windows key
