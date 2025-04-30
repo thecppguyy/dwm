@@ -1,0 +1,79 @@
+## dwm - dynamic window manager - bread's build
+
+comes with no guarantees or warranties <sub>(this means things may not work as expected, or at all)</sub> :^)
+
+note: I'd highly recommend setting up your own build! using mine or anyone else's is a starting point, but patching dwm manually not only allows for precise customization, but it will also allow you to learn how your WM works.
+
+
+## patches applied (with occasional modification):
+* [bartoggle](https://dwm.suckless.org/patches/bartoggle/)
+* [bulkill](https://dwm.suckless.org/patches/bulkill/)
+* [colorbar](https://dwm.suckless.org/patches/colorbar/)
+* [fixmultimon](https://dwm.suckless.org/patches/fixmultimon/)
+* [focusfullscreen](https://dwm.suckless.org/patches/focusfullscreen/)
+* [focusmaster-return](https://dwm.suckless.org/patches/focusmaster/)
+* [focusmonmouse](https://dwm.suckless.org/patches/focusmonmouse/)
+* [hide vacant tags](https://dwm.suckless.org/patches/hide_vacant_tags/)
+* [preventfocusshift](https://dwm.suckless.org/patches/preventfocusshift/)
+* [restartsig](https://dwm.suckless.org/patches/restartsig/)
+* [spawntag](https://dwm.suckless.org/patches/spawntag/)
+* [stacker](https://dwm.suckless.org/patches/stacker/)
+* [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
+* [sticky](https://dwm.suckless.org/patches/sticky/)
+* [swallow](https://dwm.suckless.org/patches/swallow/)
+* [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
+* [xrdb](https://dwm.suckless.org/patches/xrdb/)
+
+
+## installation, setup:
+```
+git clone https://github.com/BreadOnPenguins/dwm
+cd dwm
+sudo make clean install
+```
+
+* basic ```~/.xinitrc``` requirement
+```
+exec dwm
+```
+
+* Configure settings (fonts, bindings, etc) in **config.def.h** before compiling.
+  - Defaults: Mod is bound to the windows key
+  - ```mod + enter``` to open terminal
+  - ```mod + q``` to quit window
+  - ```mod + shift + backspace``` to fully exit
+
+
+I use [dwmblocks](https://github.com/torrinfail/dwmblocks) for my statusbar, included in ```~/.xprofile``` with ```exec dwmblocks```.
+If you intend to use another statusbar, [modify dwm appropriately](https://dwm.suckless.org/patches/anybar/) :)
+
+
+## colors, other stuff:
+If you aren't using ```~/.Xresources``` with or without [pywal16](https://github.com/eylles/pywal16), default color palette is a variant of [Nord](https://www.nordtheme.com/).
+
+
+I have wal generate a template containing [dwm Xresource strings](https://dwm.suckless.org/patches/xrdb/). Then, I merge it with wal's auto-generated Xresources file, using ```xrdb -merge```.
+
+
+```~/.config/wal/templates/xrdb_extra```
+```
+dwm.normbordercolor: {color0}
+dwm.normbgcolor: {color0}
+dwm.normfgcolor: {color4}
+dwm.selbordercolor: {color8}
+dwm.selbgcolor: {color4}
+dwm.selfgcolor:  {color0}
+```
+
+After creating the template, add these to your wal post-script for automatic xrdb merge and refresh.
+
+```
+ln -sf ~/.cache/wal/colors.Xresources ~/.Xresources
+cat ~/.Xresources ~/.cache/wal/xrdb_extra | xrdb -merge
+xdotool key super+ctrl+backslash # xrdb refresh keybind
+```
+
+Alternatively, if you prefer a different color-setting method, follow the instructions on [pywal16's wiki](https://github.com/eylles/pywal16/wiki/Customization#dwm).
+
+
+I use [slock](https://tools.suckless.org/slock/) for a lockscreen (build will be uploaded eventually), activated via keybind.
