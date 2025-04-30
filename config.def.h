@@ -158,12 +158,12 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
 
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },  /* refresh dwm (restartsig) */
-	{ MODKEY|ShiftMask,             XK_BackSpace, quit,        {0} }, /* quit dwm */
-	{ MODKEY,             		XK_q,      killclient,     {0} }, /* quit window */
-    	{ MODKEY|ShiftMask,             XK_q,      killclient,     {.ui = 1} },  /* kill all windows besides current */
-    /* { MODKEY|ShiftMask|ControlMask,  XK_q,      killclient,     {.ui = 2} }, */
-	{ MODKEY|ControlMask,           XK_backslash,     xrdb,    {.v = NULL } }, /* refresh xrdb; run this when setting new colors */
+	{ MODKEY|ControlMask|ShiftMask, XK_q,		quit,			{1} },  /* refresh dwm (restartsig) */
+	{ MODKEY|ShiftMask,				XK_BackSpace, quit,			{0} }, /* quit dwm */
+	{ MODKEY,						XK_q,		killclient,     {0} }, /* quit window */
+	{ MODKEY|ShiftMask,				XK_q,		killclient,     {.ui = 1} },  /* kill all windows besides current */
+    /* { MODKEY|ShiftMask|ControlMask,  XK_q,	killclient,     {.ui = 2} }, */
+	{ MODKEY|ControlMask,			XK_backslash, xrdb,			{.v = NULL } }, /* refresh xrdb; run this when setting new colors */
 
 
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -229,38 +229,38 @@ static const Key keys[] = {
 	{ MODKEY,			XK_w,          spawn,      {.v = (const char*[]){ BROWSER, NULL } } },
 	{ MODKEY,			XK_f,          spawn,      {.v = (const char*[]){ "st", "-e", "fff", NULL } } },
 	{ MODKEEY,			XK_n,          spawn,      {.v = (const char*[]){ "st", "-e", "nvim", NULL } } },
-	{ MODKEY|ShiftMask,			XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
+	{ MODKEY|ShiftMask,	XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
 	{ MODKEY,			XK_p,          spawn,      {.v = (const char*[]){ "darktable", NULL } } },
 
-
+ w
 /* script launch bindings */
-	{ MODKEY|ShiftMask,			   XK_n,          spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
-	{ MODKEY,			   	   XK_v,          spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
-	{ MODKEY,			           XK_c,          spawn,       {.v = (const char*[]){ "cliphist add", NULL } } },
-	{ MODKEY|ShiftMask,			   XK_a,          spawn,       {.v = (const char*[]){ "dmenuvids", NULL } } },
-	{ MODKEY|ControlMask,		   	   XK_a,          spawn,       {.v = (const char*[]){ "dmenuaudioswitch", NULL } } },
-	{ MODKEY|ShiftMask,			   XK_d,          spawn,       {.v = (const char*[]){ "rip", NULL } } },
-	{ MODKEY,			           XK_r,          spawn,       {.v = (const char*[]){ "rec", NULL } } },
-	{ MODKEY|ShiftMask,			   XK_grave,      spawn,       {.v = (const char*[]){ "define", NULL } } },
-	{ MODKEY|ShiftMask,			   XK_w,          spawn,       {.v = (const char*[]){ "wallpapermenu", NULL } } },
-	{ MODKEY,			           XK_F1,         spawn,       SHCMD("screenshot") },
-	{ MODKEY|ShiftMask,			   XK_F1,         spawn,       SHCMD("screenshot color") },
-	{ MODKEY,			           XK_F2,         spawn,       {.v = (const char*[]){ "vb", NULL } } },
-	{ MODKEY|ShiftMask,			   XK_F2,         spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
-	{ MODKEY,			           XK_F3,         spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
+	{ MODKEY|ShiftMask,		XK_n,          spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
+	{ MODKEY,				XK_v,          spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
+	{ MODKEY,				XK_c,          spawn,       {.v = (const char*[]){ "cliphist add", NULL } } },
+	{ MODKEY|ShiftMask,		XK_a,          spawn,       {.v = (const char*[]){ "dmenuvids", NULL } } },
+	{ MODKEY|ControlMask,	XK_a,          spawn,       {.v = (const char*[]){ "dmenuaudioswitch", NULL } } },
+	{ MODKEY|ShiftMask,		XK_d,          spawn,       {.v = (const char*[]){ "rip", NULL } } },
+	{ MODKEY,				XK_r,          spawn,       {.v = (const char*[]){ "rec", NULL } } },
+	{ MODKEY|ShiftMask,		XK_grave,      spawn,       {.v = (const char*[]){ "define", NULL } } },
+	{ MODKEY|ShiftMask,		XK_w,          spawn,       {.v = (const char*[]){ "wallpapermenu", NULL } } },
+	{ MODKEY,				XK_F1,         spawn,       SHCMD("screenshot") },
+	{ MODKEY|ShiftMask,		XK_F1,         spawn,       SHCMD("screenshot color") },
+	{ MODKEY,				XK_F2,         spawn,       {.v = (const char*[]){ "vb", NULL } } },
+	{ MODKEY|ShiftMask,		XK_F2,         spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
+	{ MODKEY,				XK_F3,         spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
 
 
 /* other bindings */
-	{ MODKEY,		              XK_F12,         spawn,       SHCMD("playerctl -p termusic next") },
-	{ MODKEY,		              XK_F11,         spawn,       SHCMD("playerctl -p termusic play-pause") },
-	{ MODKEY|ShiftMask,		      XK_F11,         spawn,       SHCMD("playerctl play-pause") },
-	{ MODKEY,		              XK_F10,         spawn,       SHCMD("playerctl -p termusic previous") },
-	{ MODKEY|ShiftMask,		      XK_F8,          spawn,       SHCMD("slock systemctl suspend -i") },
-	{ MODKEY,		      	      XK_F8,          spawn,       SHCMD("slock") },
-	{ MODKEY,		              XK_F7,          spawn,       SHCMD("status-timer") },
-	{ MODKEY|ShiftMask,		      XK_F7,          spawn,       SHCMD("status-timer cleanup") },
-	{ MODKEY,		              XK_F6,          spawn,       SHCMD("amixer -D pulse sset Master 5%+") },
-	{ MODKEY,		              XK_F5,          spawn,       SHCMD("amixer -D pulse sset Master 5%-") },
+	{ MODKEY,				XK_F12,         spawn,       SHCMD("playerctl -p termusic next") },
+	{ MODKEY,				XK_F11,         spawn,       SHCMD("playerctl -p termusic play-pause") },
+	{ MODKEY|ShiftMask,		XK_F11,         spawn,       SHCMD("playerctl play-pause") },
+	{ MODKEY,				XK_F10,         spawn,       SHCMD("playerctl -p termusic previous") },
+	{ MODKEY|ShiftMask,		XK_F8,          spawn,       SHCMD("slock systemctl suspend -i") },
+	{ MODKEY,				XK_F8,          spawn,       SHCMD("slock") },
+	{ MODKEY,				XK_F7,          spawn,       SHCMD("status-timer") },
+	{ MODKEY|ShiftMask,		XK_F7,          spawn,       SHCMD("status-timer cleanup") },
+	{ MODKEY,				XK_F6,          spawn,       SHCMD("amixer -D pulse sset Master 5%+") },
+	{ MODKEY,				XK_F5,          spawn,       SHCMD("amixer -D pulse sset Master 5%-") },
 };
 
 
@@ -269,24 +269,24 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask           button          function        argument */
 #ifndef __OpenBSD__
-	{ ClkWinTitle,          0,                   Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,                   Button1,        sigstatusbar,   {.i = 1} },
-	{ ClkStatusText,        0,                   Button2,        sigstatusbar,   {.i = 2} },
-	{ ClkStatusText,        0,                   Button3,        sigstatusbar,   {.i = 3} },
-	{ ClkStatusText,        0,                   Button4,        sigstatusbar,   {.i = 4} },
-	{ ClkStatusText,        0,                   Button5,        sigstatusbar,   {.i = 5} },
-	{ ClkStatusText,        ShiftMask,           Button1,        sigstatusbar,   {.i = 6} },
+	{ ClkWinTitle,          0,			Button2,	zoom,           {0} },
+	{ ClkStatusText,        0,			Button1,	sigstatusbar,   {.i = 1} },
+	{ ClkStatusText,        0,			Button2,	sigstatusbar,   {.i = 2} },
+	{ ClkStatusText,        0,			Button3,	sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        0,			Button4,	sigstatusbar,   {.i = 4} },
+	{ ClkStatusText,        0,			Button5,	sigstatusbar,   {.i = 5} },
+	{ ClkStatusText,		ShiftMask,	Button1,	sigstatusbar,	{.i = 6} },
 #endif
 
-	{ ClkStatusText,        ShiftMask,           Button3,        spawn,          SHCMD("st -e nvim ~/.local/src/dwmblocks/blocks.h") },
-	{ ClkClientWin,         MODKEY,              Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,              Button2,        defaultgaps,    {0} },
-	{ ClkClientWin,         MODKEY,              Button3,        resizemouse,    {0} },
-	{ ClkClientWin,		MODKEY,		     Button4,	     incrgaps,       {.i = +1} },
-	{ ClkClientWin,		MODKEY,		     Button5,	     incrgaps,       {.i = -1} },
-	{ ClkTagBar,            0,                   Button1,        view,           {0} },
-	{ ClkTagBar,            0,                   Button3,        toggleview,     {0} },
-	{ ClkTagBar,            MODKEY,              Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,              Button3,        toggletag,      {0} },
-	{ ClkRootWin,		0,	     	     Button2,	     togglebar,      {0} },
+	{ ClkStatusText,        ShiftMask,	Button3,	spawn,          SHCMD("st -e nvim ~/.local/src/dwmblocks/blocks.h") },
+	{ ClkClientWin,			MODKEY,		Button1,	movemouse,      {0} },
+	{ ClkClientWin,			MODKEY,		Button2,	defaultgaps,    {0} },
+	{ ClkClientWin,			MODKEY,		Button3,	resizemouse,    {0} },
+	{ ClkClientWin,			MODKEY,		Button4,	incrgaps,       {.i = +1} },
+	{ ClkClientWin,			MODKEY,		Button5,	incrgaps,       {.i = -1} },
+	{ ClkTagBar,			0,			Button1,	view,           {0} },
+	{ ClkTagBar,			0,			Button3,	toggleview,     {0} },
+	{ ClkTagBar,			MODKEY,		Button1,	tag,            {0} },
+	{ ClkTagBar,			MODKEY,		Button3,	toggletag,      {0} },
+	{ ClkRootWin,			0,			Button2,	togglebar,      {0} },
 };
