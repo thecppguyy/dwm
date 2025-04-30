@@ -91,8 +91,8 @@ static const Layout layouts[] = { /* alt glyphs: 󱡗 󱏋 */
 	{ "󰓒",      tile },    /* first entry is default */
 	{ "󰇥",      NULL },    /* no layout function means floating behavior */
 	{ "",      monocle },
- 	{ "󰫣",      spiral },
- 	{ "󰫥",      dwindle },
+	{ "󰫣",      spiral },
+	{ "󰫥",      dwindle },
 };
 
 
@@ -234,33 +234,33 @@ static const Key keys[] = {
 
  w
 /* script launch bindings */
-	{ MODKEY|ShiftMask,		XK_n,          spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
-	{ MODKEY,				XK_v,          spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
-	{ MODKEY,				XK_c,          spawn,       {.v = (const char*[]){ "cliphist add", NULL } } },
-	{ MODKEY|ShiftMask,		XK_a,          spawn,       {.v = (const char*[]){ "dmenuvids", NULL } } },
-	{ MODKEY|ControlMask,	XK_a,          spawn,       {.v = (const char*[]){ "dmenuaudioswitch", NULL } } },
-	{ MODKEY|ShiftMask,		XK_d,          spawn,       {.v = (const char*[]){ "rip", NULL } } },
-	{ MODKEY,				XK_r,          spawn,       {.v = (const char*[]){ "rec", NULL } } },
-	{ MODKEY|ShiftMask,		XK_grave,      spawn,       {.v = (const char*[]){ "define", NULL } } },
-	{ MODKEY|ShiftMask,		XK_w,          spawn,       {.v = (const char*[]){ "wallpapermenu", NULL } } },
-	{ MODKEY,				XK_F1,         spawn,       SHCMD("screenshot") },
-	{ MODKEY|ShiftMask,		XK_F1,         spawn,       SHCMD("screenshot color") },
-	{ MODKEY,				XK_F2,         spawn,       {.v = (const char*[]){ "vb", NULL } } },
-	{ MODKEY|ShiftMask,		XK_F2,         spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
-	{ MODKEY,				XK_F3,         spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
+	{ MODKEY|ShiftMask,		XK_n,      spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
+	{ MODKEY,				XK_v,      spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
+	{ MODKEY,				XK_c,      spawn,       {.v = (const char*[]){ "cliphist add", NULL } } },
+	{ MODKEY|ShiftMask,		XK_a,      spawn,       {.v = (const char*[]){ "dmenuvids", NULL } } },
+	{ MODKEY|ControlMask,	XK_a,      spawn,       {.v = (const char*[]){ "dmenuaudioswitch", NULL } } },
+	{ MODKEY|ShiftMask,		XK_d,      spawn,       {.v = (const char*[]){ "rip", NULL } } },
+	{ MODKEY,				XK_r,      spawn,       {.v = (const char*[]){ "rec", NULL } } },
+	{ MODKEY|ShiftMask,		XK_grave,  spawn,       {.v = (const char*[]){ "define", NULL } } },
+	{ MODKEY|ShiftMask,		XK_w,      spawn,       {.v = (const char*[]){ "wallpapermenu", NULL } } },
+	{ MODKEY,				XK_F1,     spawn,       SHCMD("screenshot") },
+	{ MODKEY|ShiftMask,		XK_F1,     spawn,       SHCMD("screenshot color") },
+	{ MODKEY,				XK_F2,     spawn,       {.v = (const char*[]){ "vb", NULL } } },
+	{ MODKEY|ShiftMask,		XK_F2,     spawn,       {.v = (const char*[]){ "dmenutemp", NULL } } },
+	{ MODKEY,				XK_F3,     spawn,       {.v = (const char*[]){ "phototransfer", NULL } } },
 
 
 /* other bindings */
-	{ MODKEY,				XK_F12,         spawn,       SHCMD("playerctl -p termusic next") },
-	{ MODKEY,				XK_F11,         spawn,       SHCMD("playerctl -p termusic play-pause") },
-	{ MODKEY|ShiftMask,		XK_F11,         spawn,       SHCMD("playerctl play-pause") },
-	{ MODKEY,				XK_F10,         spawn,       SHCMD("playerctl -p termusic previous") },
-	{ MODKEY|ShiftMask,		XK_F8,          spawn,       SHCMD("slock systemctl suspend -i") },
-	{ MODKEY,				XK_F8,          spawn,       SHCMD("slock") },
-	{ MODKEY,				XK_F7,          spawn,       SHCMD("status-timer") },
-	{ MODKEY|ShiftMask,		XK_F7,          spawn,       SHCMD("status-timer cleanup") },
-	{ MODKEY,				XK_F6,          spawn,       SHCMD("amixer -D pulse sset Master 5%+") },
-	{ MODKEY,				XK_F5,          spawn,       SHCMD("amixer -D pulse sset Master 5%-") },
+	{ MODKEY,				XK_F12,    spawn,       SHCMD("playerctl -p termusic next") },
+	{ MODKEY,				XK_F11,    spawn,       SHCMD("playerctl -p termusic play-pause") },
+	{ MODKEY|ShiftMask,		XK_F11,    spawn,       SHCMD("playerctl play-pause") },
+	{ MODKEY,				XK_F10,    spawn,       SHCMD("playerctl -p termusic previous") },
+	{ MODKEY|ShiftMask,		XK_F8,     spawn,       SHCMD("slock systemctl suspend -i") },
+	{ MODKEY,				XK_F8,     spawn,       SHCMD("slock") },
+	{ MODKEY,				XK_F7,     spawn,       SHCMD("status-timer") },
+	{ MODKEY|ShiftMask,		XK_F7,     spawn,       SHCMD("status-timer cleanup") },
+	{ MODKEY,				XK_F6,     spawn,       SHCMD("amixer -D pulse sset Master 5%+") },
+	{ MODKEY,				XK_F5,     spawn,       SHCMD("amixer -D pulse sset Master 5%-") },
 };
 
 
