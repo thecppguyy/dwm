@@ -221,7 +221,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,			XK_s,      togglebarstatus,{0} },
 	{ MODKEY|ControlMask,			XK_t,      togglebartags,  {0} },
     { MODKEY|ControlMask,			XK_e,      togglebarcolor, {0} }, /* swaps fg/bg for tag+win */
-	{ MODKEY|ControlMask,			XK_s,      togglebarlt,    {0} },
+	{ MODKEY|ControlMask,			XK_r,      togglebarlt,    {0} },
 	{ MODKEY|ControlMask,			XK_f,      togglebarfloat, {0} },
 
 
