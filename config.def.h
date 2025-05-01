@@ -233,7 +233,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
 	{ MODKEY,			XK_p,          spawn,      {.v = (const char*[]){ "darktable", NULL } } },
 
- w
+
 /* script launch bindings */
 	{ MODKEY|ShiftMask,		XK_n,      spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
 	{ MODKEY,				XK_v,      spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
