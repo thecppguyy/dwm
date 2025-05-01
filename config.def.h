@@ -265,7 +265,7 @@ static const Key keys[] = {
 };
 
 
-/* button definitions (statuscmd) */
+/* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask           button          function        argument */
