@@ -280,11 +280,11 @@ static const Button buttons[] = {
 #endif
 
 	{ ClkStatusText,        ShiftMask,	Button3,	spawn,          SHCMD("st -e nvim ~/.local/src/dwmblocks/blocks.h") },
-	{ ClkClientWin,			MODKEY,		Button1,	movemouse,      {0} },
-	{ ClkClientWin,			MODKEY,		Button2,	defaultgaps,    {0} },
-	{ ClkClientWin,			MODKEY,		Button3,	resizemouse,    {0} },
-	{ ClkClientWin,			MODKEY,		Button4,	incrgaps,       {.i = +1} },
-	{ ClkClientWin,			MODKEY,		Button5,	incrgaps,       {.i = -1} },
+	{ ClkClientWin,			MODKEY,		Button1,	movemouse,      {0} }, /* left click */
+	{ ClkClientWin,			MODKEY,		Button2,	defaultgaps,    {0} }, /* middle click */
+	{ ClkClientWin,			MODKEY,		Button3,	resizemouse,    {0} }, /* right click */
+	{ ClkClientWin,			MODKEY,		Button4,	incrgaps,       {.i = +1} }, /* scroll up */
+	{ ClkClientWin,			MODKEY,		Button5,	incrgaps,       {.i = -1} }, /* scroll down */
 	{ ClkTagBar,			0,			Button1,	view,           {0} },
 	{ ClkTagBar,			0,			Button3,	toggleview,     {0} },
 	{ ClkTagBar,			MODKEY,		Button1,	tag,            {0} },
