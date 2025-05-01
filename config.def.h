@@ -2,22 +2,23 @@
 bread's dwm build
 
 patches applied (incl. some slight changes):
-dwm-bartoggle-keybinds-6.4.diff - toggle pieces of the bar
-dwm-bulkill-20231029-9f88553.diff - kill all except current window; kill all in tag
-dwm-colorbar-6.3.diff - fine control over statusbar colors
-dwm-fixmultimon-6.4.diff - pretty much a bug fix
-dwm-focusfullscreen-20211121-95e7342.diff - proper fullscreen
-dwm-focusmaster-return-6.2.diff - switch to master from anywhere in the stack
-dwm-focusmonmouse-6.2.diff - move mouse when you switch monitors via keybind
-dwm-hide_vacant_tags-6.4.diff - hide tags with no windows
-dwm-preventfocusshift-20240831-6.5.diff
-dwm-restartsig-20180523-6.2.diff - refresh dwm after a recompile, without quitting
-dwm-spawntag-6.2.diff - spawn an application when a tag is middle-clicked
-dwm-stacker-6.2.diff - more utilities to manage the stack
-dwm-statuscmd-20210405-67d76bd.diff - execute cmds when statusbar is clicked (useful for dwmblocks)
-dwm-sticky-6.5.diff - make a window follow from tag to tag
-dwm-swallow-6.3.diff - terminal swallows programs launched in it
-dwm-vanitygaps-6.2.diff - gaps are functional: your eye is less inclined to drift to another window when focusing.
+
+dwm-bartoggle-keybinds-6.4.diff ----- toggle pieces of the bar
+dwm-bulkill-20231029-9f88553.diff ----- kill all except current; kill all in tag
+dwm-colorbar-6.3.diff ----- fine control over statusbar colors
+dwm-fixmultimon-6.4.diff ----- pretty much a bug fix
+dwm-focusfullscreen-20211121-95e7342.diff ----- proper fullscreen
+dwm-focusmaster-return-6.2.diff ----- switch to master from anywhere in the stack
+dwm-focusmonmouse-6.2.diff ----- move mouse when you switch monitors via keybind
+dwm-hide_vacant_tags-6.4.diff ----- hide tags with no windows
+dwm-preventfocusshift-20240831-6.5.diff ----- automatically exit fullscreen when a window is spawned
+dwm-restartsig-20180523-6.2.diff ----- refresh dwm after recompile, without quitting
+dwm-spawntag-6.2.diff ----- spawn an application when tag is middle-clicked
+dwm-stacker-6.2.diff ----- more utilities to manage the stack
+dwm-statuscmd-20210405-67d76bd.diff ----- execute cmds when statusbar is clicked (used for dwmblocks)
+dwm-sticky-6.5.diff ----- make a window follow from tag to tag
+dwm-swallow-6.3.diff ----- terminal swallows launched programs
+dwm-vanitygaps-6.2.diff ----- gaps are functional: your eye is less inclined to drift while working.
 dwm-xrdb-6.4.diff - xresource database colors
 */
 
