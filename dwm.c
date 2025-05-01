@@ -2200,7 +2200,11 @@ togglebarcolor(const Arg *arg)
 	tmp = scheme[SchemeTagsSel][ColFg];
 	scheme[SchemeTagsSel][ColFg] = scheme[SchemeTagsSel][ColBg];
 	scheme[SchemeTagsSel][ColBg] = tmp;
-
+	
+	tmp = scheme[SchemeSel][ColFg];
+	scheme[SchemeSel][ColFg] = scheme[SchemeSel][ColBg];
+	scheme[SchemeSel][ColBg] = tmp;
+	
 	arrange(selmon);
 }
 

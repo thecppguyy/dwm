@@ -52,7 +52,7 @@ static char selbgcolor[]            = "#b48ead";
 static char *colors[][3] = {
        /*               fg           bg           border   */
 		[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-		[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+		[SchemeSel]  = { selbgcolor,  selfgcolor,  selbordercolor  },
 		/* for bar --> {text, background, null} */
 		[SchemeStatus]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* status R */
 		[SchemeTagsSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* tag L selected */
@@ -220,7 +220,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,			XK_t,      togglebartitle, {0} },
 	{ MODKEY|ControlMask,			XK_s,      togglebarstatus,{0} },
 	{ MODKEY|ControlMask,			XK_t,      togglebartags,  {0} },
-    { MODKEY|ControlMask,			XK_e,      togglebarcolor, {0} }, /* swaps fg and bg tag colors */
+    { MODKEY|ControlMask,			XK_e,      togglebarcolor, {0} }, /* swaps fg/bg for tag+win */
 	{ MODKEY|ControlMask,			XK_s,      togglebarlt,    {0} },
 	{ MODKEY|ControlMask,			XK_f,      togglebarfloat, {0} },
 
