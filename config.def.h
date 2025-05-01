@@ -229,7 +229,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_m,          spawn,      {.v = (const char*[]){ "st", "-e", "termusic", NULL } } },
 	{ MODKEY,			XK_w,          spawn,      {.v = (const char*[]){ BROWSER, NULL } } },
 	{ MODKEY,			XK_f,          spawn,      {.v = (const char*[]){ "st", "-e", "fff", NULL } } },
-	{ MODKEEY,			XK_n,          spawn,      {.v = (const char*[]){ "st", "-e", "nvim", NULL } } },
+	{ MODKEY,			XK_n,          spawn,      {.v = (const char*[]){ "st", "-e", "nvim", NULL } } },
 	{ MODKEY|ShiftMask,	XK_h,          spawn,      {.v = (const char*[]){ "st", "-e", "htop", NULL } } },
 	{ MODKEY,			XK_p,          spawn,      {.v = (const char*[]){ "darktable", NULL } } },
 
