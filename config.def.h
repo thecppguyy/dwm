@@ -53,11 +53,12 @@ static char *colors[][3] = {
        /*               fg           bg           border   */
 		[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
 		[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
-		[SchemeStatus]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* statusbar R {text,background,null} */
-		[SchemeTagsSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* tagbar L selected {text,background,null} */
-		[SchemeTagsNorm]  = { selbordercolor, normbgcolor,  normbgcolor  }, /* tagbar L unselected {text,background,null} */
-		[SchemeInfoSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar M  selected {text,background,null} */
-		[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* infobar M  unselected {text,background,null} */
+		/* for bar --> {text, background, null} */
+		[SchemeStatus]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* status R */
+		[SchemeTagsSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* tag L selected */
+		[SchemeTagsNorm]  = { selbordercolor, normbgcolor,  normbgcolor  }, /* tag L unselected */
+		[SchemeInfoSel]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* info M selected */
+		[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  normbgcolor  }, /* info M unselected */
 };
 
 
