@@ -314,15 +314,15 @@ static int lrpad;            /* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = { /* maps X event type to matching function */
-	[ButtonPress] = buttonpress,
-	[ClientMessage] = clientmessage,
-	[ConfigureRequest] = configurerequest,
-	[ConfigureNotify] = configurenotify,
-	[DestroyNotify] = destroynotify,
-	[EnterNotify] = enternotify,
+	[ButtonPress] = buttonpress, /* mouse button */
+	[ClientMessage] = clientmessage, /* messages sent from windows, like fullscreen toggle */
+	[ConfigureRequest] = configurerequest, /* window (client) asks to change geometry */
+	[ConfigureNotify] = configurenotify, /* root window geom changes */
+	[DestroyNotify] = destroynotify, /* window closed - removes client from dwm */
+	[EnterNotify] = enternotify, /* mouse enters a window */
 	[Expose] = expose,
 	[FocusIn] = focusin,
-	[KeyPress] = keypress,
+	[KeyPress] = keypress, /* keyboard */
 	[MappingNotify] = mappingnotify,
 	[MapRequest] = maprequest,
 	[MotionNotify] = motionnotify,
@@ -2871,7 +2871,7 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	if (!(xcon = XGetXCBConnection(dpy)))
 		die("dwm: cannot get xcb connection\n");
-	checkotherwm();
+	checkotherwm(); /* see if any other WMs are running */
         XrmInitialize();
         loadxrdb(); /* added by xrdb patch */
 	setup();
@@ -2880,7 +2880,9 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan(); /* see if other applications are already running */
-	run(); 
+	run(); /* main event loop of dwm -->
+* continuously listens to events from the X server (window changes, key presses, mouse) 
+* and sends them to the correct event handler */
 	if(restart) execvp(argv[0], argv);
 	cleanup();
 	XCloseDisplay(dpy);
