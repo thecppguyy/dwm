@@ -42,7 +42,7 @@ sudo make clean install
   - ```mod + shift + backspace``` to fully exit
 
 
-I use [dwmblocks](https://github.com/torrinfail/dwmblocks) for my statusbar, included in ```~/.xprofile``` with ```exec dwmblocks```.
+I use [dwmblocks](https://github.com/torrinfail/dwmblocks) for my statusbar ([bar scripts](https://github.com/BreadOnPenguins/scripts)), included in ```~/.xprofile``` with ```exec dwmblocks```.
 If you intend to use another statusbar, [modify dwm appropriately](https://dwm.suckless.org/patches/anybar/) :)
 
 
