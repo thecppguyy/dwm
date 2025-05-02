@@ -320,14 +320,14 @@ static void (*handler[LASTEvent]) (XEvent *) = { /* maps X event type to matchin
 	[ConfigureNotify] = configurenotify, /* root window geom changes */
 	[DestroyNotify] = destroynotify, /* window closed - removes client from dwm */
 	[EnterNotify] = enternotify, /* mouse enters a window */
-	[Expose] = expose,
+	[Expose] = expose, /* a part of the window needs to be redrawn */
 	[FocusIn] = focusin,
 	[KeyPress] = keypress, /* keyboard */
-	[MappingNotify] = mappingnotify,
-	[MapRequest] = maprequest,
-	[MotionNotify] = motionnotify,
-	[PropertyNotify] = propertynotify,
-	[UnmapNotify] = unmapnotify
+	[MappingNotify] = mappingnotify, /* keyboard mapping change */
+	[MapRequest] = maprequest, /* a new window needs to be mapped */
+	[MotionNotify] = motionnotify, /* mouse movement */
+	[PropertyNotify] = propertynotify, /* window property changes */
+	[UnmapNotify] = unmapnotify /* window needs to be unmapped */
 };
 static Atom wmatom[WMLast], netatom[NetLast];
 static int restart = 0;
@@ -455,29 +455,29 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 }
 
 void
-arrange(Monitor *m)
+arrange(Monitor *m) /* if a specific monitor *m is given, it arranges that one. if NULL, it loops thru all */
 {
-	XEvent ev;
+	XEvent ev; /* declares a generic X event */
 	if (m)
-		showhide(m->stack);
+		showhide(m->stack); /* show visible windows and hide others */
 	else for (m = mons; m; m = m->next)
 		showhide(m->stack);
-	if (m) {
-		arrangemon(m);
-		restack(m);
-	} else {
-		for (m = mons; m; m = m->next)
-			arrangemon(m);
-		XSync(dpy, False);
+	if (m) { /* if *m is a single monitor */
+		arrangemon(m); /* applies the current layout to windows (tile, spiral, etc)*/
+		restack(m); /* proper stacking order --> focused window on top */
+	} else { /* else if *m was NULL */
+		for (m = mons; m; m = m->next) /* loop through all monitors */
+			arrangemon(m); /* apply layout to each monitor */
+		XSync(dpy, False); /* ensure X server processed all commands (cleaning up) */
 		while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 	}
 }
 
 void
 arrangemon(Monitor *m)
-{
-	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
-	if (m->lt[m->sellt]->arrange)
+{ /* applies current layout to window on monitor *m */
+	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol); /* copies layout symbol string to show in bar */
+	if (m->lt[m->sellt]->arrange) /* if the layout has an associated arrange func, call it (ex. tile() )*/
 		m->lt[m->sellt]->arrange(m);
 }
 
@@ -1321,7 +1321,7 @@ loadxrdb()
 
 void
 manage(Window w, XWindowAttributes *wa)
-{ /* when a window spawns, manage determines how to treat it and integrate it to the stack */
+{ /* after a window is passed from maprequest, manage determines how to treat it and add it to the stack */
 	Client *c, *t = NULL, *term = NULL;
 	Window trans = None;
 	XWindowChanges wc;
@@ -1387,7 +1387,7 @@ manage(Window w, XWindowAttributes *wa)
 
 void
 mappingnotify(XEvent *e)
-{ /* a window was mapped */
+{ /* keyboard mapping change */
 	XMappingEvent *ev = &e->xmapping;
 
 	XRefreshKeyboardMapping(ev);
@@ -1398,13 +1398,13 @@ mappingnotify(XEvent *e)
 void
 maprequest(XEvent *e)
 { /* window requests map */
-	static XWindowAttributes wa;
+	static XWindowAttributes wa; /* wa will now hold window attributes */
 	XMapRequestEvent *ev = &e->xmaprequest;
 
 	if (!XGetWindowAttributes(dpy, ev->window, &wa) || wa.override_redirect)
-		return;
-	if (!wintoclient(ev->window))
-		manage(ev->window, &wa);
+		return; /* gets window geom and data */
+	if (!wintoclient(ev->window)) /* if window is not already managed by dwm */
+		manage(ev->window, &wa); /* call manage to start managing it */
 }
 
 void
@@ -2782,7 +2782,7 @@ wintoclient(Window w)
 
 Monitor *
 wintomon(Window w)
-{
+{ /* move window w to monitor m */
 	int x, y;
 	Client *c;
 	Monitor *m;
@@ -2835,7 +2835,7 @@ xerrorstart(Display *dpy, XErrorEvent *ee)
 
 void
 xrdb(const Arg *arg)
-{
+{ /* load xresource database colors */
   loadxrdb();
   int i;
   for (i = 0; i < LENGTH(colors); i++)
@@ -2874,7 +2874,7 @@ main(int argc, char *argv[])
 	checkotherwm(); /* see if any other WMs are running */
         XrmInitialize();
         loadxrdb(); /* added by xrdb patch */
-	setup();
+	setup(); /* initialize everything needed to start dwm */
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec ps", NULL) == -1)
 		die("pledge");
