@@ -8,7 +8,7 @@ static void incrovgaps(const Arg *arg);
 static void incrihgaps(const Arg *arg);
 static void incrivgaps(const Arg *arg);
 static void togglegaps(const Arg *arg);
-/* Layouts (delete the ones you do not need) */
+/* Layouts */
 static void dwindle(Monitor *m);
 static void fibonacci(Monitor *m, int s);
 static void spiral(Monitor *m);
@@ -179,14 +179,10 @@ getfacts(Monitor *m, int msize, int ssize, float *mf, float *sf, int *mr, int *s
 	*sr = ssize - stotal; // the remainder (rest) of pixels after an even stack split
 }
 
-/***
- * Layouts
- */
+/* Layouts */
 
-/*
- * Fibonacci layout + gaps
- * https://dwm.suckless.org/patches/fibonacci/
- */
+/* Fibonacci layouts (spiral, dwindle) + gaps */
+
 void
 fibonacci(Monitor *m, int s)
 {
@@ -287,12 +283,11 @@ spiral(Monitor *m)
 }
 
 
-/*
- * Default tile layout + gaps
- */
+/* Default tile layout + gaps */
+
 static void
 tile(Monitor *m)
-{
+{ /* this is a calculation for how windows should be arranged for this layout */
 	unsigned int i, n;
 	int oh, ov, ih, iv;
 	int mx = 0, my = 0, mh = 0, mw = 0;
@@ -301,29 +296,29 @@ tile(Monitor *m)
 	int mrest, srest;
 	Client *c;
 
-	getgaps(m, &oh, &ov, &ih, &iv, &n);
-	if (n == 0)
+	getgaps(m, &oh, &ov, &ih, &iv, &n); /* get gaps and # of tiled clients n) */
+	if (n == 0) /* don't bother arranging if there are no tiled windows */
 		return;
 
 	sx = mx = m->wx + ov;
 	sy = my = m->wy + oh;
-	mh = m->wh - 2*oh - ih * (MIN(n, m->nmaster) - 1);
-	sh = m->wh - 2*oh - ih * (n - m->nmaster - 1);
+	mh = m->wh - 2*oh - ih * (MIN(n, m->nmaster) - 1); /* height for master clients */
+	sh = m->wh - 2*oh - ih * (n - m->nmaster - 1); /* height for stack clients */
 	sw = mw = m->ww - 2*ov;
 
 	if (m->nmaster && n > m->nmaster) {
-		sw = (mw - iv) * (1 - m->mfact);
-		mw = mw - iv - sw;
-		sx = mx + mw + iv;
+		sw = (mw - iv) * (1 - m->mfact); /* stack width */
+		mw = mw - iv - sw; /* master width */
+		sx = mx + mw + iv; /* stack area x offset */
 	}
 
-	getfacts(m, mh, sh, &mfacts, &sfacts, &mrest, &srest);
+	getfacts(m, mh, sh, &mfacts, &sfacts, &mrest, &srest); /* per client scaling ratios: mfacts/sfacts, and remainder ratios */
 
-	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
+	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) /* loop through all tiled clients */
+		if (i < m->nmaster) { /* resize master clients */
 			resize(c, mx, my, mw - (2*c->bw), (mh / mfacts) + (i < mrest ? 1 : 0) - (2*c->bw), 0);
 			my += HEIGHT(c) + ih;
-		} else {
+		} else { /* resize stack clients */
 			resize(c, sx, sy, sw - (2*c->bw), (sh / sfacts) + ((i - m->nmaster) < srest ? 1 : 0) - (2*c->bw), 0);
 			sy += HEIGHT(c) + ih;
 		}
