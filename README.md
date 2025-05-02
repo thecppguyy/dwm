@@ -1,5 +1,5 @@
 ## dwm - dynamic window manager - bread's build
-![my build](images/bread_dwm.png)
+![my build](bread_dwm.png)
 comes with no guarantees or warranties <sub>(this means things may not work as expected, or at all)</sub> :^)
 
 note: I'd highly recommend setting up your own build! using mine or anyone else's is a starting point, but patching dwm manually not only allows for precise customization, but it will also allow you to learn how your WM works.
