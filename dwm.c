@@ -96,18 +96,18 @@ enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
-	int i;
-	unsigned int ui;
-	float f;
-	const void *v;
+	int i; /* integer argument */
+	unsigned int ui; /* unsigned integer */
+	float f; /* float */
+	const void *v; /* generic pointer */
 } Arg;
 
-typedef struct {
-	unsigned int click;
-	unsigned int mask;
-	unsigned int button;
-	void (*func)(const Arg *arg);
-	const Arg arg;
+typedef struct { /* mouse button interactions */
+	unsigned int click; /* where the click happened */
+	unsigned int mask; /* modifier keys */
+	unsigned int button; /* the mouse button used */
+	void (*func)(const Arg *arg); /* a pointer to the function that should be executed */
+	const Arg arg; /* argument to pass into the function */
 } Button;
 
 typedef struct Monitor Monitor;
@@ -129,14 +129,14 @@ struct Client { /* a window that dwm is managing */
 	Window win; /* X11 win id */
 };
 
-typedef struct {
+typedef struct { /* key press interactions */
 	unsigned int mod;
 	KeySym keysym;
 	void (*func)(const Arg *);
 	const Arg arg;
 } Key;
 
-typedef struct {
+typedef struct { /* layouts */
 	const char *symbol;
 	void (*arrange)(Monitor *);
 } Layout;
