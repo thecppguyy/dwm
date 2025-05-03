@@ -1902,17 +1902,19 @@ setup(void)
 	signal(SIGTERM, sigterm);
 
 	/* init screen */
-	screen = DefaultScreen(dpy);
+	screen = DefaultScreen(dpy); /* gets the default screen number from the display (dpy) */
 	sw = DisplayWidth(dpy, screen);
 	sh = DisplayHeight(dpy, screen);
-	root = RootWindow(dpy, screen);
-	drw = drw_create(dpy, screen, root, sw, sh);
+	root = RootWindow(dpy, screen); /* dwm attaches to the root window so it can recieve global events */
+	drw = drw_create(dpy, screen, root, sw, sh); /* a drawing context for rendering the UI (like the bar) */
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h;
+	lrpad = drw->fonts->h; /* sets lrpad to the height of the font, for correct spacing in bar */
 	bh = drw->fonts->h + 2;
-	updategeom();
-	/* init atoms */
+	updategeom(); /* setting up monitor geometry, if using multiple monitors, creates a linked list of monitor structs */
+	/* init X11 atoms */
+	/* this is asking the X server for an atom (a unique integer) corresponding to each string */
+	/* if it exists already, the atom ID is returned */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
 	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);
 	wmatom[WMDelete] = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
@@ -1933,14 +1935,15 @@ setup(void)
 	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
 	cursor[CurMove] = drw_cur_create(drw, XC_fleur);
 	/* init appearance */
-	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
+	scheme = ecalloc(LENGTH(colors), sizeof(Clr *)); /* allocates memory to set up colorschemes */
 	for (i = 0; i < LENGTH(colors); i++)
-		scheme[i] = drw_scm_create(drw, colors[i], 3);
+		scheme[i] = drw_scm_create(drw, colors[i], 3); /* each scheme[i] corresponds to a SchemeNorm, SchemeSel, etc */
 	/* init bars */
-	updatebars();
-	updatestatus();
+	updatebars(); /* creates a bar window for each monitor */
+	updatestatus(); /* renders the status text */
 	/* supporting window for NetWMCheck */
-	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
+	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0); /* a dummy window created so applications can detect the WM */
+	/* setting X11 properties so applications know that dwm is the window manager, and supports EWMH hints */
 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
 		PropModeReplace, (unsigned char *) &wmcheckwin, 1);
 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMName], utf8string, 8,
@@ -1955,11 +1958,11 @@ setup(void)
 	wa.cursor = cursor[CurNormal]->cursor;
 	wa.event_mask = SubstructureRedirectMask|SubstructureNotifyMask
 		|ButtonPressMask|PointerMotionMask|EnterWindowMask
-		|LeaveWindowMask|StructureNotifyMask|PropertyChangeMask;
-	XChangeWindowAttributes(dpy, root, CWEventMask|CWCursor, &wa);
+		|LeaveWindowMask|StructureNotifyMask|PropertyChangeMask; /* the events that dwm wants to listen for */
+	XChangeWindowAttributes(dpy, root, CWEventMask|CWCursor, &wa); /* applies the event mask and cursor to the root window */
 	XSelectInput(dpy, root, wa.event_mask);
-	grabkeys();
-	focus(NULL);
+	grabkeys(); /* register the keybinds in config.h */
+	focus(NULL); /* focus needs to start cleanly */
 }
 
 void
