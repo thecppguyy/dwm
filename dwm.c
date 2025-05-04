@@ -995,33 +995,33 @@ expose(XEvent *e)
 
 void
 focus(Client *c)
-{
-	if (!c || !ISVISIBLE(c))
-		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
-	if (selmon->sel && selmon->sel != c)
-		unfocus(selmon->sel, 0);
+{ /* handling when focus shifts to a different client */
+	if (!c || !ISVISIBLE(c)) /* if the target client c isn't visible, */
+		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext); /* search the stack for the next visible one to focus */
+	if (selmon->sel && selmon->sel != c) /* if there's a selected window that is not c, */
+		unfocus(selmon->sel, 0); /* unfocus it */
 	if (c) {
-		if (c->mon != selmon)
-			selmon = c->mon;
-		if (c->isurgent)
-			seturgent(c, 0);
+		if (c->mon != selmon) /* if the new client c is on a different monitor, */
+			selmon = c->mon; /* switch selmon (selected monitor) to that monitor */
+		if (c->isurgent) /* if urgent state was marked, */
+			seturgent(c, 0); /* clear urgent state */
 		detachstack(c);
-		attachstack(c);
+		attachstack(c); /* move c to top of the stack */
 		grabbuttons(c, 1);
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
-		setfocus(c);
+		setfocus(c); /* inform X11 that c now has input focus */
 	} else {
 		XSetInputFocus(dpy, selmon->barwin, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
-	if(selmon->sel && selmon->sel->isfullscreen){
+	if(selmon->sel && selmon->sel->isfullscreen){ /* if previous client was fullscreen, toggle off and then back for the new */
 		togglefullscreen();
 		selmon->sel = c;
 		togglefullscreen();
 	}else{
 		selmon->sel = c;
 	}
-	drawbars();
+	drawbars(); /* redraw statusbar */
 }
 
 /* there are some broken focus acquiring clients needing extra handling */
