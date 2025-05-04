@@ -35,7 +35,7 @@ sudo make clean install
 
 * Basic ```~/.xinitrc``` requirement: ```exec dwm```
 
-* Configure settings (fonts, bindings, etc) in **config.def.h** before compiling.
+* Configure settings (fonts, bindings, gap pixels, etc) in **config.def.h** before compiling.
   - Defaults: Mod is bound to the windows key
   - ```mod + enter``` to open terminal
   - ```mod + q``` to quit window
