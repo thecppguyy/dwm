@@ -1958,7 +1958,7 @@ setup(void)
 	wa.cursor = cursor[CurNormal]->cursor;
 	wa.event_mask = SubstructureRedirectMask|SubstructureNotifyMask
 		|ButtonPressMask|PointerMotionMask|EnterWindowMask
-		|LeaveWindowMask|StructureNotifyMask|PropertyChangeMask; /* the events that dwm wants to listen for */
+		|LeaveWindowMask|StructureNotifyMask|PropertyChangeMask; /* X11 events that dwm will listen for */
 	XChangeWindowAttributes(dpy, root, CWEventMask|CWCursor, &wa); /* applies the event mask and cursor to the root window */
 	XSelectInput(dpy, root, wa.event_mask);
 	grabkeys(); /* register the keybinds in config.h */
