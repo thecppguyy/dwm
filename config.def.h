@@ -237,8 +237,8 @@ static const Key keys[] = {
 
 /* script launch bindings */
 	{ MODKEY|ShiftMask,		XK_n,      spawn,       {.v = (const char*[]){ "dmenunotes", NULL } } },
-	{ MODKEY,				XK_v,      spawn,       {.v = (const char*[]){ "cliphist sel", NULL } } },
-	{ MODKEY,				XK_c,      spawn,       {.v = (const char*[]){ "cliphist add", NULL } } },
+	{ MODKEY,				XK_v,      spawn,       {.v = (const char*[]){ "cliphist", "sel", NULL } } },
+	{ MODKEY,				XK_c,      spawn,       {.v = (const char*[]){ "cliphist", "add", NULL } } },
 	{ MODKEY|ShiftMask,		XK_a,      spawn,       {.v = (const char*[]){ "dmenuvids", NULL } } },
 	{ MODKEY|ControlMask,	XK_a,      spawn,       {.v = (const char*[]){ "dmenuaudioswitch", NULL } } },
 	{ MODKEY|ShiftMask,		XK_d,      spawn,       {.v = (const char*[]){ "rip", NULL } } },
