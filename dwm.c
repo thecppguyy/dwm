@@ -216,7 +216,7 @@ static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
-static int getstatusbarpid();
+static pid_t getstatusbarpid(void);
 static void sigstatusbar(const Arg *arg);
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
@@ -269,7 +269,7 @@ static void togglebarlt(const Arg *arg);
 static void togglebarstatus(const Arg *arg);
 static void togglebarfloat(const Arg *arg);
 static void togglefloating(const Arg *arg);
-static void togglefullscreen();
+static void togglefullscreen(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -304,9 +304,9 @@ static pid_t winpid(Window w);
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
-static int statusbarsig;
-pid_t statusbarpid = 0;
 static int statusw;
+static int statussig;
+static pid_t statuspid = -1;
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh;               /* bar height */
@@ -579,7 +579,7 @@ buttonpress(XEvent *e)
 		else if (ev->x > selmon->ww - statusw && selmon->showstatus) {
 			x = selmon->ww - statusw;
 			click = ClkStatusText;
-			statusbarsig = 0; /* statuscmd stuff */
+			statussig = 0; /* statuscmd stuff */
 			for (text = s = stext; *s && x <= ev->x; s++) { /* loop through to determine which block was clicked */
 				if ((unsigned char)(*s) < ' ') { /* sig delim, if block boundaries are off check this */
 					ch = *s; /* measure width */
@@ -589,11 +589,11 @@ buttonpress(XEvent *e)
 					text = s + 1; /* move text to next char after delim */
 					if (x >= ev->x) /* check click pos */
 						break;
-					statusbarsig = ch; /* save control char as sig # */
+					statussig = ch; /* save control char as sig # */
 						}
 				}
 		} else if (selmon->showtitle) {
-			statusbarsig = 0;
+			statussig = 0;
 			for (text = s = stext; *s && x <= ev->x; s++) {
 				if ((unsigned char)(*s) < ' ') {
 					ch = *s;
@@ -603,7 +603,7 @@ buttonpress(XEvent *e)
 					text = s + 1;
 					if (x >= ev->x)
 						break;
-					statusbarsig = ch;
+					statussig = ch;
 								}
 						}
 			}
@@ -1015,9 +1015,9 @@ focus(Client *c)
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
 	if(selmon->sel && selmon->sel->isfullscreen){ /* if previous client was fullscreen, toggle off and then back for the new */
-		togglefullscreen();
+		togglefullscreen(NULL);
 		selmon->sel = c;
-		togglefullscreen();
+		togglefullscreen(NULL);
 	}else{
 		selmon->sel = c;
 	}
@@ -1107,16 +1107,36 @@ getatomprop(Client *c, Atom prop)
 	return atom;
 }
 
-int
-getstatusbarpid()
+
+pid_t
+getstatusbarpid(void)
 {
-	char buf[16];
-	FILE *fp = popen("pidof -s dwmblocks", "r");
+	char buf[32], *str = buf, *c;
+	FILE *fp;
+
+	if (statuspid > 0) {
+		snprintf(buf, sizeof(buf), "/proc/%u/cmdline", statuspid);
+		if ((fp = fopen(buf, "r"))) {
+			fgets(buf, sizeof(buf), fp);
+			while ((c = strchr(str, '/')))
+				str = c + 1;
+			fclose(fp);
+			if (!strcmp(str, STATUSBAR))
+				return statuspid;
+		}
+	}
+
+#ifdef __FreeBSD__
+	if (!(fp = popen("pgrep "STATUSBAR, "r")))
+#else
+	if (!(fp = popen("pidof -s "STATUSBAR, "r")))
+#endif
+		return -1;
+
+
 	fgets(buf, sizeof(buf), fp);
-	pid_t pid = strtoul(buf, NULL, 10);
 	pclose(fp);
-	statusbarpid = pid;
-	return pid != 0 ? 0 : -1;
+	return strtol(buf, NULL, 10);
 }
 
 
@@ -1289,7 +1309,7 @@ killclient(const Arg *arg)
 }
 
 void
-loadxrdb()
+loadxrdb(void)
 {
   Display *display;
   char * resm;
@@ -1996,21 +2016,19 @@ showhide(Client *c)
 	}
 }
 
+
 void
 sigstatusbar(const Arg *arg)
 {
 	union sigval sv;
-	sv.sival_int = 0 | (statusbarsig << 8) | arg->i;
-	if (!statusbarpid)
-		if (getstatusbarpid() == -1)
-			return;
 
-	if (sigqueue(statusbarpid, SIGUSR1, sv) == -1) {
-		if (errno == ESRCH) {
-			if (!getstatusbarpid())
-				sigqueue(statusbarpid, SIGUSR1, sv);
-		}
-	}
+	if (!statussig)
+		return;
+	sv.sival_int = arg->i;
+	if ((statuspid = getstatusbarpid()) <= 0)
+		return;
+
+	sigqueue(statuspid, SIGRTMIN+statussig, sv);
 }
 
 
@@ -2265,7 +2283,7 @@ togglesticky(const Arg *arg)
 }
 
 void
-togglefullscreen()
+togglefullscreen(const Arg *arg)
 {
 	if (selmon->sel){
 		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
@@ -2353,7 +2371,7 @@ unmanage(Client *c, int destroyed)
 		arrange(m);
 		focus(NULL);
 	if(fullscreen){ /* if fullscreen, toggle it off */
-		togglefullscreen();
+		togglefullscreen(NULL);
 	}
 		updateclientlist(); /* update EWMH property */
 	}
@@ -2675,7 +2693,7 @@ winpid(Window w)
 
 #endif /* __linux__ */
 
-#ifdef __OpenBSD__
+#if defined(__OpenBSD__) || defined(__FreeBSD__)
         Atom type;
         int format;
         unsigned long len, bytes;
@@ -2709,6 +2727,18 @@ getparentprocess(pid_t p)
 	fscanf(f, "%*u %*s %*c %u", &v);
 	fclose(f);
 #endif /* __linux__*/
+
+#ifdef __FreeBSD__
+    FILE *f;
+	char buf[256];
+	snprintf(buf, sizeof(buf) - 1, "/proc/%u/status", (unsigned)p);
+
+    if (!(f = fopen(buf, "r")))
+		return 0;
+
+	fscanf(f, "%*s %*u %u", &v);
+	fclose(f);
+#endif
 
 #ifdef __OpenBSD__
 	int n;
@@ -2891,4 +2921,3 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
-
