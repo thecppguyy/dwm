@@ -7,8 +7,14 @@ VERSION = 6.5
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 
+OS := $(shell uname)
+ifeq ($(OS), FreeBSD)
+X11INC = /usr/local/include
+X11LIB = /usr/local/lib
+else
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib
+endif
 
 # Xinerama, comment if you don't want it
 XINERAMALIBS  = -lXinerama
@@ -16,7 +22,11 @@ XINERAMAFLAGS = -DXINERAMA
 
 # freetype
 FREETYPELIBS = -lfontconfig -lXft
+ifeq ($(OS), FreeBSD)
+FREETYPEINC = ${X11INC}/freetype2
+else
 FREETYPEINC = /usr/include/freetype2
+endif
 # OpenBSD (uncomment)
 #FREETYPEINC = ${X11INC}/freetype2
 #MANPREFIX = ${PREFIX}/man
